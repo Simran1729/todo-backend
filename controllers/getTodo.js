@@ -21,3 +21,35 @@ exports.getTodo = async (req, res) => {
         )
     }
 }
+
+exports.getTodoById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const response = await Todo.findById(id);
+
+        if(!response){
+            res.status(404).json(
+                {
+                    success : false,
+                    message : "No todo found"
+                }
+            )
+        }
+
+        res.status(200).json({
+            success : true,
+            data : response,
+            message : "Todo fetched successfully"
+        })
+    }
+    catch (err){
+        console.log("error fetching todo");
+        res.status(500).json(
+            {
+                success : false,
+                message : err.message
+            }
+        )
+
+    }
+}
